@@ -1,26 +1,1649 @@
 @import "tailwindcss";
+/* nav-v5-email-pill-tap-reveal */
+/* behind-artist-v1 */
+/* typography-near-black-v1 */
+/* consistency-pass-v1 */
+/* readability-boost-v1 */
+/* who-am-i-v1 */
+/* custom-request-v1 */
+/* how-it-works-v1 */
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* =====================================================================
+ *  Typography system — French editorial luxury
+ * =====================================================================
+ *  Single typeface (Bricolage Grotesque). Two functional weights:
+ *    400 — body, subtitles, accents
+ *    500 — display, headings, CTAs
+ *
+ *  Hierarchy relies on size and spacing, not on adding weights.
+ */
+@theme {
+  --font-sans: var(--font-bricolage), system-ui, sans-serif;
+  --font-display: var(--font-bricolage), system-ui, sans-serif;
+
+  /* ---- Fluid display scale — dramatic, airy, editorial ---- */
+  --text-display-1: clamp(3.4rem, 11vw, 8rem); /* hero only */
+  --text-display-2: clamp(2.4rem, 6.4vw, 5rem); /* section opener */
+  --text-heading: clamp(1.45rem, 2.6vw, 2rem); /* section heading */
+  --text-subheading: clamp(0.98rem, 1.25vw, 1.1rem); /* lead paragraph */
+  --text-body: clamp(0.9rem, 0.95vw, 0.98rem); /* body */
+  --text-micro: 0.7rem; /* eyebrow */
+
+  /* ---- Line heights — display tight, body roomy ---- */
+  --leading-display: 0.96;
+  --leading-display-tight: 0.92;
+  --leading-heading: 1.12;
+  --leading-body: 1.65;
+
+  /* ---- Tracking — luxury-tight on display, neutral on body ---- */
+  --tracking-display: -0.038em;
+  --tracking-heading: -0.02em;
+  --tracking-body: -0.005em;
+  --tracking-eyebrow: 0.22em;
+
+  /* ---- Vertical rhythm tokens (margins between elements) ---- */
+  --rhythm-tight: clamp(12px, 1.4vw, 18px);
+  --rhythm-mid: clamp(24px, 2.6vw, 34px);
+  --rhythm-loose: clamp(36px, 4.2vw, 56px);
+  --rhythm-section: clamp(72px, 8vw, 128px);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* =====================================================================
+ *  Base reset
+ * =====================================================================
+ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-feature-settings: "ss01", "ss02", "cv01";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #0a1628;
+  overflow-x: hidden;
+  min-height: 100%;
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 400;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
+  /* Body default: soft near-black. Section-specific colors below. */
+  color: #1A1A1A;
+}
+
+/* =====================================================================
+ *  Typography primitives — strong hierarchy, French editorial rhythm
+ * =====================================================================
+ */
+.type-display-1 {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: var(--text-display-1);
+  line-height: var(--leading-display-tight);
+  letter-spacing: var(--tracking-display);
+}
+
+.type-display-2 {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: var(--text-display-2);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+}
+
+.type-heading {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: var(--text-heading);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+}
+
+.type-subheading {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 400;
+  font-size: var(--text-subheading);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
+}
+
+.type-body {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 400;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
+}
+
+.type-eyebrow {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: var(--text-micro);
+  line-height: 1;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+}
+
+/* Portfolio horizontal */
+.portfolio-section {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: clamp(64px, 10vh, 140px) clamp(24px, 5vw, 64px)
+    clamp(80px, 12vh, 160px);
+  color: #1A1A1A;
+}
+
+.portfolio-intro {
+  max-width: 720px;
+  margin: 0 auto var(--rhythm-loose);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--rhythm-mid);
+}
+
+.portfolio-eyebrow {
+  color: #2B2B2B;
+}
+
+.portfolio-title {
+  margin: 0;
+  color: #111111;
+  /* Soft warm-white halo for legibility on the sky — premium feel, not a glow */
+  text-shadow:
+    0 1px 28px rgba(255, 248, 230, 0.55),
+    0 0 6px rgba(255, 248, 230, 0.35);
+  text-wrap: balance;
+}
+
+.portfolio-subtitle {
+  margin: 0;
+  max-width: 48ch;
+  color: #2B2B2B;
+  text-shadow: 0 1px 18px rgba(255, 248, 230, 0.5);
+  text-wrap: balance;
+}
+
+/* ---- Grid: 1 → 2 → 3 columns, with desktop staggered Y offsets ---- */
+.artwork-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(56px, 7vw, 88px) clamp(28px, 3vw, 44px);
+  margin-top: clamp(64px, 10vh, 120px);
+}
+
+@media (min-width: 720px) {
+  .artwork-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1080px) {
+  .artwork-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(40px, 4vw, 64px);
+  }
+
+  /* Honor each card's offsetY only on desktop — keeps single-column clean */
+  .artwork-card-host {
+    transform: translateY(var(--card-stagger-y, 0));
+  }
+}
+
+/* ---- Card — soft glass / clay surface ---- */
+.artwork-card-host {
+  /* host wraps the actual card; used by Framer Motion for entry animation */
+}
+
+.artwork-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px 32px;
+  border-radius: 32px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.06) 65%,
+    rgba(255, 255, 255, 0.09) 100%
+  );
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.32) inset,
+    0 24px 60px -20px rgba(8, 18, 44, 0.45),
+    0 8px 24px -8px rgba(8, 18, 44, 0.25);
+  overflow: visible;
+  isolation: isolate;
+  transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.artwork-card:hover {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.45) inset,
+    0 32px 76px -22px rgba(8, 18, 44, 0.55),
+    0 12px 36px -10px rgba(8, 18, 44, 0.32);
+}
+
+/* ---- Canvas wrap: positions the painting to overflow ABOVE the card ---- */
+.artwork-canvas-wrap {
+  position: relative;
+  margin: -56px 8px 0; /* negative top → canvas leans out of the card */
+  align-self: stretch;
+  transform-origin: 50% 60%;
+  will-change: transform;
+}
+
+.artwork-canvas {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 22px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.28) inset,
+    0 18px 44px -16px rgba(8, 18, 44, 0.55),
+    0 6px 22px -8px rgba(8, 18, 44, 0.35);
+  background-blend-mode: normal, screen, screen, normal;
+}
+
+@media (min-width: 720px) {
+  .artwork-canvas-wrap {
+    margin: -72px 12px 0;
+  }
+}
+
+/* ---- Body text ---- */
+.artwork-body {
+  margin-top: clamp(20px, 2.5vw, 28px);
+  padding: 0 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  will-change: transform;
+}
+
+.artwork-title {
+  margin: 0;
+  color: #111111;
+}
+
+.artwork-description {
+  margin: 0;
+  color: #2B2B2B;
+  text-wrap: balance;
+  max-width: 32ch;
+}
+
+/* =====================================================================
+ *  PortfolioFolder — physical cream folder container, empty state
+ * =====================================================================
+ *  - Cream paper background, generous radius
+ *  - Soft grid lines printed inside (CSS-only texture)
+ *  - Dashed stitched inner border via ::before equivalent (span)
+ *  - Small tab label protruding above the top edge
+ *  - Slot for future artworks (overflow allowed)
+ */
+.portfolio-folder-section {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: clamp(96px, 14vh, 200px) clamp(20px, 5vw, 64px)
+    clamp(96px, 14vh, 200px);
+}
+
+.portfolio-folder {
+  position: relative;
+  width: 100%;
+  max-width: 1240px;
+  /* Horizontal artist portfolio case — landscape proportions */
+  aspect-ratio: 9 / 5;
+  border-radius: clamp(22px, 2.6vw, 38px);
+
+  /* Cream paper with a soft warm gradient — gives a 3D paper feel */
+  background-color: #f4ead4;
+  background-image:
+    /* Grid paper texture (vertical + horizontal) */
+    linear-gradient(rgba(150, 110, 70, 0.085) 1px, transparent 1px),
+    linear-gradient(
+      90deg,
+      rgba(150, 110, 70, 0.085) 1px,
+      transparent 1px
+    ),
+    /* Soft warm-light gradient (mediterranean studio feel) */
+      radial-gradient(
+        120% 80% at 30% 20%,
+        rgba(255, 248, 230, 0.85) 0%,
+        rgba(255, 248, 230, 0) 60%
+      ),
+    linear-gradient(160deg, #f4ead4 0%, #ecdfc2 100%);
+  background-size:
+    34px 34px,
+    34px 34px,
+    auto,
+    auto;
+  background-position: 14px 14px, 14px 14px, 0 0, 0 0;
+
+  /* Layered shadow — paper resting on the sky */
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 -6px 12px -8px rgba(140, 100, 60, 0.18) inset,
+    0 32px 76px -22px rgba(8, 18, 44, 0.55),
+    0 14px 36px -10px rgba(8, 18, 44, 0.32);
+
+  overflow: visible; /* artwork slot will overflow later */
+  isolation: isolate;
+}
+
+/* Inset dashed stitch line — runs ~14px from the folder edge */
+.portfolio-folder-stitch {
+  position: absolute;
+  inset: clamp(10px, 1.2vw, 16px);
+  border: 1.5px dashed rgba(140, 100, 60, 0.36);
+  border-radius: clamp(16px, 2vw, 28px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Tab — protrudes above the top edge, left-anchored */
+.portfolio-folder-tab {
+  position: absolute;
+  top: clamp(-26px, -2.4vw, -20px);
+  left: clamp(40px, 6vw, 80px);
+  padding: 10px 22px;
+  background: #f4ead4;
+  background-image: linear-gradient(160deg, #f6ecd6 0%, #ecdfc2 100%);
+  border: 1.5px dashed rgba(140, 100, 60, 0.36);
+  border-radius: 999px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.5) inset,
+    0 6px 14px -6px rgba(8, 18, 44, 0.25);
+  z-index: 5; /* above the pocket (3) and content (2) */
+}
+
+.portfolio-folder-tab > span {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 0.7rem;
+  line-height: 1;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #1A1A1A;
+  display: inline-block;
+}
+
+/* Inner content slot — holds the artworks, pinned to the bottom so the
+ * paintings line up with the shared front pocket below. */
+.portfolio-folder-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  padding: clamp(20px, 2.4vw, 36px) clamp(22px, 2.6vw, 40px) 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* =====================================================================
+ *  Single shared front pocket — at the bottom of the folder, covering
+ *  the lower portion of every painting in one continuous flap.
+ *
+ *  Layering inside .portfolio-folder (which has isolation: isolate):
+ *    0 — folder paper (background)
+ *    1 — .portfolio-folder-stitch (dashed inset border)
+ *    2 — .portfolio-folder-content > artworks
+ *    3 — .portfolio-folder-pocket  ← this layer
+ *    5 — .portfolio-folder-tab
+ * =====================================================================
+ */
+.portfolio-folder-pocket {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Horizontal sleeve — thin, sits low on the folder */
+  height: 32%;
+  z-index: 3;
+  pointer-events: none;
+
+  /* Match the folder's bottom radius so the pocket hugs the corners */
+  border-radius: 0 0 clamp(22px, 2.6vw, 38px) clamp(22px, 2.6vw, 38px);
+
+  /* Slightly more saturated cream than the folder back, suggesting a
+   * folded paper flap on top of the same paper. */
+  background-color: #f0e1c0;
+  background-image:
+    /* Grid lines (continuation of the folder paper feel) */
+    linear-gradient(rgba(150, 110, 70, 0.085) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(150, 110, 70, 0.085) 1px, transparent 1px),
+    /* Warm fold gradient — slight darkening at the top edge */
+    linear-gradient(
+      180deg,
+      rgba(140, 100, 60, 0.12) 0%,
+      rgba(140, 100, 60, 0) 22%
+    ),
+    /* Body cream wash */
+    linear-gradient(170deg, #f1e3c0 0%, #e6d29f 100%);
+  background-size:
+    30px 30px,
+    30px 30px,
+    auto,
+    auto;
+  background-position: 14px 14px, 14px 14px, 0 0, 0 0;
+
+  /* Solid darker line marking the pocket opening / fold lip */
+  border-top: 1px solid rgba(140, 100, 60, 0.52);
+
+  box-shadow:
+    /* Inset shadow at the top: depth of the pocket opening */
+    inset 0 14px 18px -10px rgba(50, 35, 18, 0.42),
+    /* Subtle inset at the bottom: the folded floor */
+      inset 0 -3px 4px -2px rgba(140, 100, 60, 0.22),
+    /* Cast shadow going UP onto the paintings where they enter the pocket */
+      0 -10px 16px -8px rgba(50, 35, 18, 0.32);
+}
+
+/* Decorative dashed seam echoing the folder's stitch border */
+.portfolio-folder-pocket-seam {
+  position: absolute;
+  top: 6px;
+  left: clamp(16px, 2.8vw, 28px);
+  right: clamp(16px, 2.8vw, 28px);
+  height: 0;
+  border-top: 1px dashed rgba(140, 100, 60, 0.4);
+  pointer-events: none;
+}
+
+/* =====================================================================
+ *  Artworks layout — five paintings arranged as a natural "fan" inside
+ *  the same shared folder. Children are absolutely positioned so they
+ *  can overlap, sit at different depths, and feel hand-stacked rather
+ *  than gridded.
+ * =====================================================================
+ */
+.artworks-grid {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: none;
+}
+
+/* ---- Canvas wrapper — Framer Motion drives transform here ----
+ * `left` / `width` / `z-index` come from inline style per painting.
+ * `bottom: 0` anchors them at the pocket lip; Framer's `y` lifts them. */
+.artwork-canvas-wrapper {
+  position: absolute;
+  bottom: 0;
+  display: block;
+  will-change: transform;
+  transform-origin: 50% 82%;
+}
+.artwork-canvas-wrapper:hover {
+  z-index: 20 !important; /* hovered painting on top of fan */
+}
+
+/* ---- Canvas — the painted surface itself ---- */
+.artwork-canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 6px;
+  background-color: #e8dcc8;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  isolation: isolate;
+
+  /* Layered shadows simulate canvas thickness + soft floating shadow.
+   * 1. Thin warm edge stroke (canvas wood-frame line)
+   * 2. Bottom-right "thickness" — flat color extrusion mimicking the
+   *    side of the stretched canvas catching light
+   * 3. Lower soft ambient shadow that grounds the painting */
+  box-shadow:
+    0 0 0 1px rgba(140, 100, 60, 0.32),
+    4px 4px 0 0 #cbb893,
+    5px 5px 0 1px rgba(140, 100, 60, 0.35),
+    10px 18px 28px -10px rgba(40, 30, 20, 0.5),
+    0 4px 12px -4px rgba(40, 30, 20, 0.28);
+
+  transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* On hover the shadow deepens — feels like the canvas is being lifted */
+.artwork-canvas-wrapper:hover .artwork-canvas {
+  box-shadow:
+    0 0 0 1px rgba(140, 100, 60, 0.35),
+    4px 4px 0 0 #cbb893,
+    5px 5px 0 1px rgba(140, 100, 60, 0.38),
+    14px 28px 44px -10px rgba(20, 14, 6, 0.55),
+    0 8px 22px -6px rgba(40, 30, 20, 0.38);
+}
+
+/* Make sure next/image's positioned fill works correctly */
+.artwork-canvas > img {
+  display: block;
+  pointer-events: none;
+}
+
+@media (min-width: 720px) {
+  .artwork-canvas {
+    box-shadow:
+      0 0 0 1px rgba(140, 100, 60, 0.32),
+      5px 5px 0 0 #cbb893,
+      6px 6px 0 1px rgba(140, 100, 60, 0.35),
+      14px 22px 36px -10px rgba(40, 30, 20, 0.5),
+      0 6px 18px -6px rgba(40, 30, 20, 0.28);
+  }
+  .artwork-canvas-wrapper:hover .artwork-canvas {
+    box-shadow:
+      0 0 0 1px rgba(140, 100, 60, 0.35),
+      5px 5px 0 0 #cbb893,
+      6px 6px 0 1px rgba(140, 100, 60, 0.38),
+      18px 32px 56px -12px rgba(20, 14, 6, 0.55),
+      0 10px 26px -6px rgba(40, 30, 20, 0.38);
+  }
+}
+
+/* (Legacy per-slot pocket styles removed — pocket lives at folder level now.) */
+
+
+/* =====================================================================
+ *  Floating top navigation — cream pills above the sky
+ *
+ *  Desktop : [ status pill ]  …  [ main links pill ]  …  [ CTA pill ]
+ *  Mobile  : [ logo pill   ]      [ menu icon       ]      [ CTA pill ]
+ *                                  ↳ tap menu → vertical link drawer
+ * =====================================================================
+ */
+.floating-nav {
+  position: fixed;
+  top: clamp(14px, 2.2vh, 28px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 22px);
+  padding: 0 clamp(16px, 3vw, 44px);
+  /* Pills handle their own hit areas — let the gaps fall through to the
+   * sky behind. */
+  pointer-events: none;
+}
+.floating-nav > * {
+  pointer-events: auto;
+}
+
+/* ---- Shared "cream pill" chrome ------------------------------------- */
+.nav-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: #1A1A1A;
+  text-decoration: none;
+  white-space: nowrap;
+
+  background-color: #f4ead4;
+  background-image:
+    linear-gradient(160deg, #f8efd8 0%, #ecdfc2 100%);
+  border: 1.5px dashed rgba(140, 100, 60, 0.32);
+
+  /* Inset highlight + soft cast shadow → "clay" depth */
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 -3px 8px -5px rgba(140, 100, 60, 0.22) inset,
+    0 14px 28px -12px rgba(8, 18, 44, 0.36),
+    0 5px 14px -5px rgba(8, 18, 44, 0.18);
+
+  transition:
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.4s ease;
+}
+.nav-pill:hover,
+.nav-pill:focus-visible {
+  transform: translateY(-2px) scale(1.015);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 -3px 8px -5px rgba(140, 100, 60, 0.28) inset,
+    0 22px 40px -14px rgba(8, 18, 44, 0.46),
+    0 10px 22px -8px rgba(8, 18, 44, 0.24);
+  outline: none;
+}
+
+/* ---- Left: status pill --------------------------------------------- */
+.nav-pill--status {
+  justify-self: start;
+  padding: 9px 18px 9px 14px;
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.nav-status-label {
+  display: inline-block;
+}
+.nav-status-dot {
+  position: relative;
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 35%, #b6e4a2 0%, #6aa86a 70%, #3f7a44 100%);
+  box-shadow:
+    0 0 0 1px rgba(60, 110, 60, 0.35),
+    0 0 8px 2px rgba(120, 200, 120, 0.55);
+}
+.nav-status-dot-pulse {
+  position: absolute;
+  inset: -3px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(140, 220, 140, 0.55);
+  animation: nav-status-pulse 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+@keyframes nav-status-pulse {
+  0%   { transform: scale(0.7); opacity: 0.9; }
+  80%  { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* ---- Center: main links pill --------------------------------------- */
+.nav-pill--links {
+  justify-self: center;
+  gap: clamp(14px, 1.6vw, 26px);
+  padding: 10px clamp(18px, 2vw, 30px);
+}
+.nav-link {
+  position: relative;
+  color: #2B2B2B;
+  text-decoration: none;
+  padding: 4px 2px;
+  letter-spacing: 0.05em;
+  transition: color 0.4s ease;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: -1px;
+  height: 1px;
+  background: rgba(140, 100, 60, 0.55);
+  transform: scaleX(0);
+  transform-origin: 50% 50%;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link:hover {
+  color: #111111;
+}
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---- Right: email-copy pill ----------------------------------------
+ *
+ *  Desktop (≥720px) : full email pill always visible — click to copy.
+ *  Mobile  (<720px) : icon-only round button — tap expands the pill,
+ *                     reveals the address, copies, shows "Email copié"
+ *                     feedback, then auto-collapses back to icon-only.
+ *
+ *  Right-anchored in the navbar grid so any width change grows leftward
+ *  (no layout jump for the rest of the navbar).
+ * ------------------------------------------------------------------- */
+.nav-email-pill {
+  justify-self: end;
+  gap: 10px;
+  padding: 10px 18px 10px 14px;       /* expanded by default on desktop */
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  color: #111111;
+  cursor: pointer;
+  border: 1.5px dashed rgba(140, 100, 60, 0.32);
+  background-image: linear-gradient(160deg, #fdf8ea 0%, #f3e9cf 100%);
+
+  /* Reset default <button> chrome */
+  appearance: none;
+  font-weight: 500;
+  line-height: 1;
+}
+.nav-email-pill:active {
+  transform: translateY(-1px) scale(0.995);
+  transition-duration: 0.2s;
+}
+
+/* Icons stack on top of each other — one fades out as the other fades in */
+.nav-email-icon {
+  flex-shrink: 0;
+  color: #2B2B2B;
+  transition:
+    opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-email-icon--check {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%) scale(0.7);
+  opacity: 0;
+  color: rgba(60, 110, 60, 0.95);
+}
+.nav-email-pill.is-copied .nav-email-icon--envelope {
+  opacity: 0;
+  transform: scale(0.7);
+}
+.nav-email-pill.is-copied .nav-email-icon--check {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+/* Text label — fixed-ish width slot so the email/feedback swap doesn't
+ * make the pill jump in size. The two children sit in the same grid
+ * cell and crossfade. Always visible on desktop; collapsed by default
+ * on mobile (see the mobile media query below). */
+.nav-email-text {
+  position: relative;
+  display: inline-grid;
+  grid-template-areas: "label";
+  align-items: center;
+  line-height: 1;
+}
+.nav-email-text-default,
+.nav-email-text-copied {
+  grid-area: label;
+  transition:
+    opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+.nav-email-text-copied {
+  opacity: 0;
+  transform: translateY(4px);
+  color: rgba(60, 110, 60, 0.95);
+  letter-spacing: 0.05em;
+}
+.nav-email-pill.is-copied .nav-email-text-default {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+.nav-email-pill.is-copied .nav-email-text-copied {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Screen-reader only helper (used for aria-live announcement) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- Mobile-only: logo pill + menu button -------------------------- */
+.nav-pill--logo,
+.nav-pill--menu {
+  display: none;
+}
+.nav-logo-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: linear-gradient(160deg, #f6e6b8 0%, #d9b974 100%);
+  border: 1.5px dashed rgba(140, 100, 60, 0.32);
+  font-family: var(--font-bricolage), serif;
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: #111111;
+  line-height: 1;
+}
+.nav-logo-word {
+  font-family: var(--font-bricolage), serif;
+  font-weight: 500;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  color: #111111;
+}
+.nav-pill--menu {
+  padding: 10px 12px;
+  background-color: transparent;
+}
+.nav-menu-icon {
+  position: relative;
+  width: 18px;
+  height: 14px;
+  display: inline-block;
+}
+.nav-menu-icon > span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1.6px;
+  background: #1A1A1A;
+  border-radius: 999px;
+  transition:
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.35s ease,
+    top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-menu-icon > span:nth-child(1) { top: 0; }
+.nav-menu-icon > span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.nav-menu-icon > span:nth-child(3) { bottom: 0; }
+.nav-menu-icon.is-open > span:nth-child(1) { top: 50%; transform: translateY(-50%) rotate(45deg); }
+.nav-menu-icon.is-open > span:nth-child(2) { opacity: 0; }
+.nav-menu-icon.is-open > span:nth-child(3) { bottom: auto; top: 50%; transform: translateY(-50%) rotate(-45deg); }
+
+/* ---- Mobile drop-panel for nav links ------------------------------- */
+.nav-mobile-panel {
+  display: none;
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: min(78vw, 320px);
+  padding: 14px 18px;
+  flex-direction: column;
+  gap: 4px;
+
+  background-color: #f4ead4;
+  background-image: linear-gradient(160deg, #f8efd8 0%, #ecdfc2 100%);
+  border: 1.5px dashed rgba(140, 100, 60, 0.32);
+  border-radius: 22px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 18px 36px -14px rgba(8, 18, 44, 0.42),
+    0 8px 18px -6px rgba(8, 18, 44, 0.22);
+}
+.nav-link--mobile {
+  display: block;
+  padding: 10px 6px;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  border-bottom: 1px dashed rgba(140, 100, 60, 0.18);
+}
+.nav-link--mobile:last-child {
+  border-bottom: none;
+}
+
+/* ────────── Responsive switch ────────── */
+@media (max-width: 720px) {
+  .floating-nav {
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+  }
+  .nav-pill--status,
+  .nav-pill--links {
+    display: none;
+  }
+  .nav-pill--logo {
+    display: inline-flex;
+    justify-self: start;
+    padding: 6px 14px 6px 6px;
+    gap: 8px;
+  }
+  .nav-pill--menu {
+    display: inline-flex;
+    justify-self: center;
+  }
+  /* Email pill — icon-only round button by default. On tap (.is-copied)
+   * it expands sideways to reveal the address + "Email copié" feedback,
+   * then auto-collapses back when the React timeout clears the class. */
+  .nav-email-pill {
+    justify-self: end;
+    gap: 0;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 999px;
+    transition:
+      width 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+      gap 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+      padding 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+  .nav-email-pill .nav-email-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition:
+      left 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.3s ease;
+  }
+  .nav-email-pill .nav-email-icon--check {
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+
+  /* Email-text wrapper: collapsed by default, expands when .is-copied */
+  .nav-email-pill .nav-email-text {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateX(-4px);
+    transition:
+      max-width 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.36s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* ── Tapped state: pill expands, icon shifts left, address reveals ── */
+  .nav-email-pill.is-copied {
+    width: auto;
+    max-width: min(78vw, 280px);
+    height: auto;
+    padding: 10px 18px 10px 14px;
+    gap: 10px;
+    border-radius: 999px;
+  }
+  .nav-email-pill.is-copied .nav-email-icon {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: translate(0, 0);
+  }
+  .nav-email-pill.is-copied .nav-email-icon--envelope {
+    transform: translate(0, 0) scale(0.7);
+    opacity: 0;
+  }
+  .nav-email-pill.is-copied .nav-email-icon--check {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  .nav-email-pill.is-copied .nav-email-text {
+    max-width: 220px;
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .nav-mobile-panel {
+    display: flex;
+  }
+}
+
+
+/* =====================================================================
+ *  "Derrière l'artiste" section — short biography + polaroid fan
+ *
+ *  Sits over the same sky as the rest of the page (no new atmosphere).
+ *  The polaroid fan mirrors the portfolio-folder fan pattern: five
+ *  cards absolutely positioned inside a relative container so they
+ *  can overlap, sit at different depths, and feel hand-stacked.
+ * =====================================================================
+ */
+.behind-artist-section {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  /* Matches `.portfolio-folder-section` so the two sections share the
+   * same vertical rhythm — the page reads as one flow, not stacked blocks. */
+  padding: clamp(96px, 14vh, 200px) clamp(20px, 5vw, 64px)
+           clamp(96px, 14vh, 200px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(56px, 8vh, 96px);
+}
+
+.behind-artist-intro {
+  width: 100%;
+  max-width: 720px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 2vh, 28px);
+}
+
+.behind-artist-title {
+  color: #111111;
+  letter-spacing: -0.01em;
+  /* Soft warm-white halo — lifts the heading off the sky cleanly */
+  text-shadow:
+    0 1px 28px rgba(255, 248, 230, 0.55),
+    0 0 6px rgba(255, 248, 230, 0.35);
+  text-wrap: balance;
+  margin: 0;
+}
+
+.behind-artist-paragraph {
+  color: #1A1A1A;
+  line-height: 1.6;
+  text-shadow: 0 1px 18px rgba(255, 248, 230, 0.55);
+  text-wrap: pretty;
+  max-width: 56ch;
+  margin: 0 auto;
+}
+
+/* ---- Polaroid fan container --------------------------------------- */
+.polaroid-fan {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  /* Reserves vertical space for the tallest polaroid plus its caption
+   * and the slight lift on the center card. Children are absolutely
+   * positioned and overflow into this height. */
+  height: clamp(280px, 36vw, 440px);
+}
+
+/* ---- Single polaroid card ----------------------------------------- */
+.polaroid {
+  position: absolute;
+  bottom: 0;
+  margin: 0;
+  left: var(--pol-left-d);
+  width: var(--pol-width-d);
+  z-index: var(--pol-z-d, 1);
+  transform: translateY(calc(var(--pol-lift-d) * -1))
+             rotate(var(--pol-rotate-d))
+             scale(var(--pol-scale-d));
+  transform-origin: 50% 88%;
+  will-change: transform;
+
+  padding: 10px 10px 0;
+  background: linear-gradient(165deg, #fbf7ee 0%, #f4ecd8 100%);
+  border-radius: 4px;
+
+  /* Layered shadows — feels like a real polaroid resting on paper.
+   * Edge tone matches the dashed border family elsewhere (rgba 140,100,60). */
+  box-shadow:
+    0 0 0 1px rgba(140, 100, 60, 0.28),
+    0 10px 22px -10px rgba(8, 18, 44, 0.35),
+    0 4px 12px -4px rgba(8, 18, 44, 0.2);
+
+  /* Same 0.6s premium ease as nav-pills and the portfolio canvases —
+   * one shared hover cadence across the page. */
+  transition:
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    z-index 0s;
+}
+.polaroid:hover {
+  z-index: 20;
+  /* Lift slightly and soften the tilt toward 0 (only halfway, to keep
+   * the natural handmade feel). */
+  transform: translateY(calc(var(--pol-lift-d) * -1 - 10px))
+             rotate(calc(var(--pol-rotate-d) * 0.35))
+             scale(var(--pol-scale-d));
+  box-shadow:
+    0 0 0 1px rgba(140, 100, 60, 0.32),
+    0 22px 36px -12px rgba(8, 18, 44, 0.45),
+    0 10px 22px -6px rgba(8, 18, 44, 0.25);
+}
+
+/* Photo slot — square-ish aspect on top of the card. Replace background
+ * with a real <img> later; this is just a coloured placeholder. */
+.polaroid-photo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 2px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 0 1px rgba(140, 100, 60, 0.18) inset;
+}
+
+/* Handwritten-feel caption strip below the photo */
+.polaroid-caption {
+  padding: 10px 4px 12px;
+  text-align: center;
+  font-family: var(--font-bricolage), serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(0.78rem, 1vw, 0.95rem);
+  letter-spacing: 0.02em;
+  color: #2B2B2B;
+  line-height: 1;
+}
+
+/* ────────── Mobile: show 3 visible, outer 2 tucked behind ────────── */
+@media (max-width: 720px) {
+  .polaroid-fan {
+    height: clamp(260px, 70vw, 360px);
+    max-width: 100%;
+  }
+  .polaroid {
+    left: var(--pol-left-m);
+    width: var(--pol-width-m);
+    z-index: var(--pol-z-m, 1);
+    transform: translateY(calc(var(--pol-lift-m) * -1))
+               rotate(var(--pol-rotate-m))
+               scale(var(--pol-scale-m));
+    padding: 8px 8px 0;
+  }
+  .polaroid:hover {
+    transform: translateY(calc(var(--pol-lift-m) * -1 - 6px))
+               rotate(calc(var(--pol-rotate-m) * 0.4))
+               scale(var(--pol-scale-m));
+  }
+  .polaroid-caption {
+    padding: 8px 4px 10px;
+  }
+}
+
+
+/* =====================================================================
+ *  "Qui suis-je ?" section — portrait placeholder + intro + CTA.
+ *
+ *  Uses the same vertical rhythm, cream-pill CTA chrome, warm halo on
+ *  the heading, and section padding as the rest of the page — so the
+ *  block reads as part of the same Mediterranean atelier flow.
+ * =====================================================================
+ */
+.who-section {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(96px, 14vh, 200px) clamp(20px, 5vw, 64px);
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(40px, 6vw, 80px);
+  align-items: center;
+}
+
+/* ---- Portrait card -------------------------------------------------- */
+.who-portrait-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.who-portrait {
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 4 / 5;
+  border-radius: 22px;
+
+  /* Warm cream "atelier" frame — picks up the same paper palette as the
+   * folder + polaroids. Replace `background` with an <Image /> later. */
+  background:
+    radial-gradient(80% 60% at 35% 30%, rgba(255, 244, 220, 0.92) 0%, rgba(255, 244, 220, 0) 55%),
+    radial-gradient(60% 50% at 70% 75%, rgba(180, 140, 90, 0.45) 0%, rgba(180, 140, 90, 0) 60%),
+    linear-gradient(170deg, #f0d8aa 0%, #c89368 100%);
+  background-size: cover;
+  background-position: center;
+
+  /* Layered shadow vocabulary consistent with polaroids + canvases */
+  box-shadow:
+    0 0 0 1px rgba(140, 100, 60, 0.28),
+    0 22px 44px -16px rgba(8, 18, 44, 0.45),
+    0 8px 22px -8px rgba(8, 18, 44, 0.25);
+}
+
+/* ---- Text block ----------------------------------------------------- */
+.who-text {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 2.4vh, 30px);
+  text-align: center;
+}
+
+.who-title {
+  margin: 0;
+  color: #111111;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  /* Same warm-cream halo used on hero + biography headings */
+  text-shadow:
+    0 1px 28px rgba(255, 248, 230, 0.55),
+    0 0 6px rgba(255, 248, 230, 0.35);
+}
+
+.who-paragraph {
+  margin: 0 auto;
+  max-width: 56ch;
+  color: #1A1A1A;
+  line-height: 1.65;
+  text-wrap: pretty;
+  text-shadow: 0 1px 18px rgba(255, 248, 230, 0.5);
+}
+
+/* ---- CTA — same cream-pill family as nav + hero CTA ----------------- */
+.who-cta {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(6px, 1vh, 14px);
+  padding: 12px 26px;
+  border-radius: 999px;
+
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 0.92rem;
+  letter-spacing: -0.005em;
+  color: #111111;
+  text-decoration: none;
+  white-space: nowrap;
+
+  background-color: #f4ead4;
+  background-image: linear-gradient(160deg, #f8efd8 0%, #ecdfc2 100%);
+  border: 1.5px dashed rgba(140, 100, 60, 0.32);
+
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 -3px 8px -5px rgba(140, 100, 60, 0.22) inset,
+    0 14px 28px -12px rgba(8, 18, 44, 0.36),
+    0 5px 14px -5px rgba(8, 18, 44, 0.18);
+
+  transition:
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.who-cta:hover,
+.who-cta:focus-visible {
+  transform: translateY(-2px) scale(1.015);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 -3px 8px -5px rgba(140, 100, 60, 0.28) inset,
+    0 22px 40px -14px rgba(8, 18, 44, 0.46),
+    0 10px 22px -8px rgba(8, 18, 44, 0.24);
+  outline: none;
+}
+.who-cta-arrow {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.who-cta:hover .who-cta-arrow,
+.who-cta:focus-visible .who-cta-arrow {
+  transform: translateX(3px);
+}
+
+/* ────────── Desktop: portrait | text side-by-side ────────── */
+@media (min-width: 880px) {
+  .who-section {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(56px, 6vw, 100px);
+  }
+  .who-portrait-wrap {
+    justify-content: flex-end;
+  }
+  .who-text {
+    text-align: left;
+  }
+  .who-paragraph {
+    margin: 0;
+  }
+  .who-cta {
+    align-self: flex-start;
+  }
+}
+
+
+/* =====================================================================
+ *  "Me demander une toile personnalisée" — visual-only request section.
+ *
+ *  One soft cream card with title, paragraph, dashed upload zone, and
+ *  CTA pill. Borrows the existing folder/pill/halo vocabulary so it
+ *  reads as part of the same Mediterranean atelier flow.
+ * =====================================================================
+ */
+.custom-section {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  padding: clamp(96px, 14vh, 200px) clamp(20px, 5vw, 64px);
+  display: flex;
+  justify-content: center;
+}
+
+/* ---- Cream card (mirrors `.portfolio-folder` paper feel, simpler) --- */
+.custom-card {
+  width: 100%;
+  max-width: 720px;
+  padding: clamp(36px, 5vw, 64px) clamp(28px, 4vw, 56px);
+  border-radius: clamp(22px, 2.4vw, 32px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(20px, 2.6vh, 32px);
+  text-align: center;
+
+  background-color: #f4ead4;
+  background-image:
+    /* Faint grid paper texture (continuity with the portfolio folder) */
+    linear-gradient(rgba(150, 110, 70, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(150, 110, 70, 0.06) 1px, transparent 1px),
+    radial-gradient(120% 80% at 30% 20%, rgba(255, 248, 230, 0.85) 0%, rgba(255, 248, 230, 0) 60%),
+    linear-gradient(160deg, #f4ead4 0%, #ecdfc2 100%);
+  background-size: 34px 34px, 34px 34px, auto, auto;
+  background-position: 14px 14px, 14px 14px, 0 0, 0 0;
+
+  border: 1.5px dashed rgba(140, 100, 60, 0.32);
+
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 -6px 12px -8px rgba(140, 100, 60, 0.18) inset,
+    0 32px 76px -22px rgba(8, 18, 44, 0.45),
+    0 14px 36px -10px rgba(8, 18, 44, 0.25);
+}
+
+/* ---- Title + paragraph -------------------------------------------- */
+.custom-title {
+  margin: 0;
+  color: #111111;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  /* No warm halo here — the title sits on cream paper, so contrast is
+   * already good. Keeping the halo would muddy the edge against the
+   * cream background. */
+}
+
+.custom-paragraph {
+  margin: 0;
+  max-width: 52ch;
+  color: #1A1A1A;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+/* ---- Upload placeholder (no real input wired yet) ------------------ */
+.custom-upload {
+  width: 100%;
+  max-width: 460px;
+  padding: clamp(22px, 3vw, 32px) clamp(18px, 3vw, 28px);
+  margin-top: clamp(6px, 1vh, 12px);
+
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 22px);
+  text-align: left;
+
+  background-color: #fbf3dd;
+  background-image: linear-gradient(160deg, #fdf6e3 0%, #f1e3bf 100%);
+  border: 1.5px dashed rgba(140, 100, 60, 0.42);
+  border-radius: 16px;
+
+  color: #2B2B2B;
+  cursor: pointer;
+  user-select: none;
+
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.55) inset,
+    0 6px 16px -10px rgba(8, 18, 44, 0.22);
+
+  transition:
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s ease,
+    background-color 0.4s ease;
+}
+.custom-upload:hover,
+.custom-upload:focus-visible {
+  transform: translateY(-2px);
+  background-color: #fef5dc;
+  border-color: rgba(140, 100, 60, 0.55);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.65) inset,
+    0 14px 28px -12px rgba(8, 18, 44, 0.34);
+  outline: none;
+}
+
+.custom-upload-icon {
+  flex-shrink: 0;
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: linear-gradient(160deg, #f8efd8 0%, #ecdfc2 100%);
+  border: 1.5px dashed rgba(140, 100, 60, 0.32);
+  color: #2B2B2B;
+}
+
+.custom-upload-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.custom-upload-headline {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  color: #111111;
+  letter-spacing: -0.005em;
+  line-height: 1.25;
+}
+.custom-upload-hint {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 400;
+  font-size: clamp(0.78rem, 0.9vw, 0.88rem);
+  color: #2B2B2B;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+
+/* ---- CTA — same cream-pill family as nav / hero / WhoAmI ---------- */
+.custom-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(4px, 0.8vh, 10px);
+  padding: 12px 26px;
+  border-radius: 999px;
+
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 0.92rem;
+  letter-spacing: -0.005em;
+  color: #111111;
+  text-decoration: none;
+  white-space: nowrap;
+
+  background-color: #f4ead4;
+  background-image: linear-gradient(160deg, #f8efd8 0%, #ecdfc2 100%);
+  border: 1.5px dashed rgba(140, 100, 60, 0.32);
+
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 -3px 8px -5px rgba(140, 100, 60, 0.22) inset,
+    0 14px 28px -12px rgba(8, 18, 44, 0.36),
+    0 5px 14px -5px rgba(8, 18, 44, 0.18);
+
+  transition:
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.custom-cta:hover,
+.custom-cta:focus-visible {
+  transform: translateY(-2px) scale(1.015);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 -3px 8px -5px rgba(140, 100, 60, 0.28) inset,
+    0 22px 40px -14px rgba(8, 18, 44, 0.46),
+    0 10px 22px -8px rgba(8, 18, 44, 0.24);
+  outline: none;
+}
+.custom-cta-arrow {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.custom-cta:hover .custom-cta-arrow,
+.custom-cta:focus-visible .custom-cta-arrow {
+  transform: translateX(3px);
+}
+
+/* ────────── Mobile tweaks ────────── */
+@media (max-width: 600px) {
+  .custom-upload {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+    padding: 22px 18px;
+  }
+  .custom-upload-copy {
+    align-items: center;
+  }
+}
+
+
+/* =====================================================================
+ *  "Comment ça marche" — two short reassuring tracks of 3 steps each.
+ *
+ *  Reuses the cream-paper / dashed-border / warm-halo vocabulary so the
+ *  block belongs to the same atelier. No new patterns.
+ * =====================================================================
+ */
+.how-section {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(96px, 14vh, 200px) clamp(20px, 5vw, 64px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(40px, 6vh, 72px);
+}
+
+.how-title {
+  margin: 0;
+  color: #111111;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  text-align: center;
+  /* Same warm-cream halo used on every other heading-over-sky. */
+  text-shadow:
+    0 1px 28px rgba(255, 248, 230, 0.55),
+    0 0 6px rgba(255, 248, 230, 0.35);
+}
+
+/* ---- Two-column track layout --------------------------------------- */
+.how-tracks {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(28px, 3vw, 44px);
+}
+
+/* ---- Single track card (mirrors `.custom-card` paper feel) --------- */
+.how-track {
+  padding: clamp(28px, 3.6vw, 44px) clamp(24px, 3vw, 36px);
+  border-radius: clamp(20px, 2.2vw, 28px);
+
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 2.4vh, 28px);
+
+  background-color: #f4ead4;
+  background-image:
+    linear-gradient(rgba(150, 110, 70, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(150, 110, 70, 0.06) 1px, transparent 1px),
+    radial-gradient(120% 80% at 30% 20%, rgba(255, 248, 230, 0.85) 0%, rgba(255, 248, 230, 0) 60%),
+    linear-gradient(160deg, #f4ead4 0%, #ecdfc2 100%);
+  background-size: 34px 34px, 34px 34px, auto, auto;
+  background-position: 14px 14px, 14px 14px, 0 0, 0 0;
+
+  border: 1.5px dashed rgba(140, 100, 60, 0.32);
+
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 -6px 12px -8px rgba(140, 100, 60, 0.18) inset,
+    0 24px 56px -22px rgba(8, 18, 44, 0.4),
+    0 10px 24px -10px rgba(8, 18, 44, 0.22);
+}
+
+.how-track-header {
+  display: flex;
+  justify-content: flex-start;
+}
+.how-track-label {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 0.74rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #1A1A1A;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background-image: linear-gradient(160deg, #f8efd8 0%, #ecdfc2 100%);
+  border: 1.5px dashed rgba(140, 100, 60, 0.32);
+}
+
+/* ---- Steps list ---------------------------------------------------- */
+.how-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 1.8vh, 22px);
+}
+
+.how-step {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 1.6vw, 20px);
+}
+
+.how-step-number {
+  flex-shrink: 0;
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+
+  font-family: var(--font-bricolage), serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #111111;
+  line-height: 1;
+
+  background-image: linear-gradient(160deg, #f6e6b8 0%, #d9b974 100%);
+  border: 1.5px dashed rgba(140, 100, 60, 0.32);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.55) inset,
+    0 6px 14px -8px rgba(8, 18, 44, 0.25);
+}
+
+.how-step-text {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 400;
+  font-size: clamp(0.95rem, 1.05vw, 1.05rem);
+  line-height: 1.45;
+  letter-spacing: -0.005em;
+  color: #1A1A1A;
+  text-wrap: pretty;
+}
+
+/* ────────── Desktop: side-by-side tracks ────────── */
+@media (min-width: 880px) {
+  .how-tracks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(28px, 3vw, 44px);
+  }
 }
