@@ -1,8 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
+
+// Framer-motion-wrapped Next.js Link for client-side route navigation
+// with hover/whileInView animation support.
+const MotionLink = motion.create(Link);
 
 /**
  * WhoAmISection — short "Qui suis-je ?" biography card with a portrait
@@ -60,8 +65,8 @@ export default function WhoAmISection() {
           fait main.
         </motion.p>
 
-        <motion.a
-          href="#oeuvres"
+        <MotionLink
+          href="/mes-oeuvres"
           className="who-cta"
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -85,7 +90,7 @@ export default function WhoAmISection() {
               strokeLinejoin="round"
             />
           </svg>
-        </motion.a>
+        </MotionLink>
       </div>
     </section>
   );

@@ -23,7 +23,7 @@ const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
  */
 export default function CustomRequestSection() {
   return (
-    <section className="custom-section" id="commande">
+    <section className="custom-section" id="contact">
       <motion.div
         className="custom-card"
         initial={{ opacity: 0, y: 32 }}

@@ -1,10 +1,15 @@
 "use client";
 
+import Link from "next/link";
 import {
   motion,
   useTransform,
   type MotionValue,
 } from "framer-motion";
+
+// Framer-motion-wrapped Next.js Link — lets us put `whileHover` / `whileTap`
+// on a client-side navigated anchor (no full reload, no flicker).
+const MotionLink = motion.create(Link);
 
 interface HeroProps {
   mouseX: MotionValue<number>;
@@ -122,8 +127,8 @@ export default function Hero({ mouseX, mouseY, scroll }: HeroProps) {
             pointerEvents: "auto",
           }}
         >
-          <motion.button
-            type="button"
+          <MotionLink
+            href="/mes-oeuvres"
             whileHover={{
               scale: 1.035,
               backgroundColor: "rgba(255, 252, 244, 0.92)",
@@ -143,11 +148,12 @@ export default function Hero({ mouseX, mouseY, scroll }: HeroProps) {
               padding: "15px 30px",
               borderRadius: "999px",
               cursor: "pointer",
+              textDecoration: "none",
               boxShadow: "0 8px 32px rgba(8, 18, 44, 0.18)",
             }}
           >
             Voir les œuvres
-          </motion.button>
+          </MotionLink>
         </motion.div>
       </motion.div>
 

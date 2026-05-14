@@ -1,16 +1,33 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import EmailCopyPill from "./EmailCopyPill";
 
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 
-const NAV_LINKS = [
-  { href: "#accueil",   label: "Accueil" },
-  { href: "#oeuvres",   label: "Mes œuvres" },
-  { href: "#about",     label: "Qui suis-je ?" },
-  { href: "#contact",   label: "Me contacter" },
+/**
+ * NAV_LINKS — each entry knows whether it's a section anchor (scrolls on
+ * the homepage, navigates with a hash from any other page) or a real
+ * page route (always navigates).
+ *
+ *   • Accueil       → top of /
+ *   • Mes œuvres    → /mes-oeuvres (separate page)
+ *   • Qui suis-je ? → /#qui-suis-je section
+ *   • Me contacter  → /#contact section (custom-request section)
+ */
+type NavLink =
+  | { kind: "top";    label: string }                // back to homepage top
+  | { kind: "page";   label: string; href: string }  // full-page route
+  | { kind: "anchor"; label: string; anchor: string }; // section on /
+
+const NAV_LINKS: NavLink[] = [
+  { kind: "top",    label: "Accueil" },
+  { kind: "page",   label: "Mes œuvres",    href: "/mes-oeuvres" },
+  { kind: "anchor", label: "Qui suis-je ?", anchor: "qui-suis-je" },
+  { kind: "anchor", label: "Me contacter",  anchor: "contact" },
 ];
 
 /**
@@ -20,13 +37,41 @@ const NAV_LINKS = [
  *
  *   • left  → "Atelier ouvert" status pill (green dot, gentle float)
  *   • center → main nav capsule (Accueil / Œuvres / Qui suis-je / Contact)
- *   • right → CTA capsule ("Me demander une toile")
+ *   • right → EmailCopyPill (envelope icon → copy email on click)
  *
- * On mobile the layout collapses to: small logo pill | menu icon | CTA.
+ * On mobile the layout collapses to: small logo pill | menu icon | email.
  * Tapping the menu icon reveals the four links in a stacked cream panel.
  */
 export default function FloatingNav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
+  // Build the right href for a given link, depending on where we currently are.
+  const buildHref = (l: NavLink): string => {
+    if (l.kind === "top") return "/";
+    if (l.kind === "page") return l.href;
+    return `/#${l.anchor}`;
+  };
+
+  // Click handler: when we're on the homepage AND the link is an in-page
+  // anchor or "Accueil", smooth-scroll locally (no full navigation).
+  const handleClick = (l: NavLink) => (e: React.MouseEvent) => {
+    if (!isHome) return; // let Next.js handle the cross-page navigation
+    if (l.kind === "top") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      history.replaceState(null, "", "/");
+    } else if (l.kind === "anchor") {
+      const target = document.getElementById(l.anchor);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        history.replaceState(null, "", `/#${l.anchor}`);
+      }
+    }
+    // "page" links always do a real navigation.
+  };
 
   return (
     <motion.nav
@@ -48,11 +93,16 @@ export default function FloatingNav() {
         <span className="nav-status-label">Atelier ouvert</span>
       </motion.div>
 
-      {/* ────────── Mobile-only: compact logo pill ────────── */}
-      <div className="nav-pill nav-pill--logo" aria-hidden="true">
+      {/* ────────── Mobile-only: compact logo pill (also a "back home" link) ────────── */}
+      <Link
+        href="/"
+        onClick={handleClick({ kind: "top", label: "Accueil" })}
+        className="nav-pill nav-pill--logo"
+        aria-label="Retour à l'accueil"
+      >
         <span className="nav-logo-mark">C</span>
         <span className="nav-logo-word">Ciel</span>
-      </div>
+      </Link>
 
       {/* ────────── Center: main nav capsule (desktop) ────────── */}
       <motion.div
@@ -61,9 +111,14 @@ export default function FloatingNav() {
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
       >
         {NAV_LINKS.map((l) => (
-          <a key={l.href} href={l.href} className="nav-link">
+          <Link
+            key={l.label}
+            href={buildHref(l)}
+            onClick={handleClick(l)}
+            className="nav-link"
+          >
             {l.label}
-          </a>
+          </Link>
         ))}
       </motion.div>
 
@@ -97,14 +152,17 @@ export default function FloatingNav() {
             transition={{ duration: 0.45, ease: [...EASE_OUT_EXPO] }}
           >
             {NAV_LINKS.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
+              <Link
+                key={l.label}
+                href={buildHref(l)}
                 className="nav-link nav-link--mobile"
-                onClick={() => setMenuOpen(false)}
+                onClick={(e) => {
+                  handleClick(l)(e);
+                  setMenuOpen(false);
+                }}
               >
                 {l.label}
-              </a>
+              </Link>
             ))}
           </motion.div>
         )}
