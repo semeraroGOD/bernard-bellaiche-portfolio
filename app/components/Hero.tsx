@@ -21,9 +21,12 @@ export default function Hero({ mouseX, mouseY, scroll }: HeroProps) {
   const parallaxX = useTransform(mouseX, (v) => v * -6);
   const parallaxY = useTransform(mouseY, (v) => v * -8);
 
-  // Scroll-driven fade & lift: hero clears the way as user descends
-  const scrollOpacity = useTransform(scroll, [0, 0.18, 0.3], [1, 0.6, 0]);
-  const scrollLift = useTransform(scroll, [0, 0.3], [0, -80]);
+  // Scroll-driven fade: hero clears decisively in the first ~14% of scroll
+  // (i.e. well before the next section enters view). No vertical lift — keeps
+  // the hero geometry stable while it fades, so nothing "slides into" the
+  // section below during transition.
+  const scrollOpacity = useTransform(scroll, [0, 0.06, 0.14], [1, 0.6, 0]);
+  const scrollLift = useTransform(scroll, [0, 0.14], [0, -24]);
 
   return (
     <section

@@ -44,10 +44,10 @@ export default function HowItWorksSection() {
     <section className="how-section" id="comment-ca-marche">
       <motion.h2
         className="how-title type-display-2"
-        initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        viewport={{ once: true, margin: "-15%" }}
-        transition={{ duration: 1.3, ease: [...EASE_OUT_EXPO] }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-10%" }}
+        transition={{ duration: 0.9, ease: [...EASE_OUT_EXPO] }}
       >
         Comment ça marche
       </motion.h2>

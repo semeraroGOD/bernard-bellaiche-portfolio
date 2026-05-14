@@ -1647,3 +1647,71 @@ body {
     gap: clamp(28px, 3vw, 44px);
   }
 }
+
+
+/* =====================================================================
+ *  Page-flow primitives — scroll feel, section separation, layering
+ *
+ *  These rules don't redesign anything: they only enforce that the page
+ *  reads as ONE calm flow rather than a sequence of stacked blocks.
+ * =====================================================================
+ */
+
+/* Small transparent spacer placed between sections. Gives the eye a
+ * clear "breath" between two cards/sections without padding either one
+ * more than the others. */
+.section-gap {
+  width: 100%;
+  height: clamp(40px, 6vh, 88px);
+  pointer-events: none;
+}
+
+/* Explicit z-index hierarchy — documented once so accidental shadows /
+ * filters / transforms on descendants can't shuffle the stack:
+ *
+ *   0   →  Scene3D <Canvas> (fixed, sky + clouds, behind everything)
+ *   10  →  scrollable content stack + every DOM section
+ *   20  →  fixed Hero overlay (fades out on scroll)
+ *   50  →  floating top navigation
+ *   100 →  entry curtain (fades out once)
+ */
+.portfolio-folder-section,
+.behind-artist-section,
+.who-section,
+.custom-section,
+.how-section {
+  position: relative;
+  z-index: 10;
+  /* Prevents internal absolutely-positioned decorations (polaroids,
+   * artwork canvases, etc.) from visually leaking into the next/prev
+   * section's content area while still allowing soft shadows to fall
+   * outside the inner card boundaries. */
+  isolation: isolate;
+}
+
+/* Defensive: stop any rogue horizontal overflow from triggering scroll
+ * jitter on mobile where sections can otherwise push slightly wider
+ * than the viewport during entry transforms. */
+html, body {
+  overflow-x: clip;
+}
+
+/* Smoother native scroll on touch devices */
+@media (pointer: coarse) {
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Respect reduced-motion users — disables the per-section entry animations
+ * and the cinematic camera breath without changing layout. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.15s !important;
+  }
+}

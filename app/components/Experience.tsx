@@ -74,7 +74,13 @@ export default function Experience() {
         }}
       />
 
-      {/* Scrollable content stack — drives camera lift + holds DOM sections */}
+      {/* Scrollable content stack — drives camera lift + holds DOM sections.
+       *
+       * Each section already has generous `clamp(96px, 14vh, 200px)` top +
+       * bottom padding, but we add a tiny 6vh transparent "breath" between
+       * sections so the eye reads them as separate moments while scrolling,
+       * never as stacked blocks. Sections themselves stay in normal flow —
+       * no negative margins, no absolute positioning, no overlap risk. */}
       <div style={{ position: "relative", zIndex: 10 }}>
         {/* Hero spacer (Hero itself is position: fixed) */}
         <div style={{ height: "100vh" }} />
@@ -84,14 +90,22 @@ export default function Experience() {
           <ArtworksGrid />
         </PortfolioFolder>
 
+        <div className="section-gap" aria-hidden="true" />
+
         {/* Short biography + polaroid fan */}
         <BehindArtistSection />
+
+        <div className="section-gap" aria-hidden="true" />
 
         {/* "Qui suis-je ?" — portrait + introduction + CTA */}
         <WhoAmISection />
 
+        <div className="section-gap" aria-hidden="true" />
+
         {/* Custom painting request — visual-only invitation card */}
         <CustomRequestSection />
+
+        <div className="section-gap" aria-hidden="true" />
 
         {/* "Comment ça marche" — two reassuring tracks of 3 steps each */}
         <HowItWorksSection />
