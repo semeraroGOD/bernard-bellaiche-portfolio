@@ -12,6 +12,7 @@
 /* easel-aspect-v2 */
 /* artist-photos-v1 */
 /* cta-forest-green-v1 */
+/* brand-stamp-v1 */
 
 /* =====================================================================
  *  Typography system — French editorial luxury
@@ -2357,3 +2358,89 @@ html, body {
   background: none;
   box-shadow: none;
 }
+
+
+/* =====================================================================
+ *  Brand stamp — "L'Atelier de Bernard"
+ *
+ *  Circular cream-paper logo with navy ink. Rendered with a circular
+ *  clip so the (square PNG) cream background sits inside a circle —
+ *  reads as a hand-stamped wax-seal signature.
+ *
+ *    • Desktop : ~32–36px badge at the far right of the central nav
+ *                pill, after the link list.
+ *    • Mobile  : ~44–48px standalone badge in the left navbar slot
+ *                (replaces the previous "C | Ciel" mark).
+ * =====================================================================
+ */
+
+/* Shared link wrapper so the logo inherits the same hover lift as the
+ * surrounding nav-pill interactions. */
+.nav-brand-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  /* Small left "indent" against the last link so the stamp doesn't
+   * collide with the "Me contacter" link. */
+  margin-left: clamp(4px, 0.8vw, 12px);
+  border-radius: 999px;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-brand-link:hover {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+/* The image itself — clipped to a circle, sharp rendering. */
+.nav-brand-mark {
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+  /* Tiny edge stroke matches the dashed-cream family while still
+   * looking like ink-on-paper at small sizes. */
+  box-shadow:
+    0 0 0 1px rgba(140, 100, 60, 0.22),
+    0 4px 10px -4px rgba(8, 18, 44, 0.28);
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Desktop variant — 36px square. */
+.nav-brand-mark--desktop {
+  width: 36px;
+  height: 36px;
+}
+
+/* Mobile variant — 48px square. Visible in the left navbar slot only
+ * on mobile (the desktop version is hidden via the responsive rules
+ * already governing `.nav-pill--logo`). */
+.nav-brand-mark--mobile {
+  width: 48px;
+  height: 48px;
+}
+
+/* Drop the cream pill chrome on mobile when the logo is the pill itself —
+ * the stamp already has its own paper-coloured background. We keep a soft
+ * floating shadow + circular clip so it reads as a badge, not a square. */
+@media (max-width: 720px) {
+  .nav-pill--logo {
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+  }
+  .nav-pill--logo:hover,
+  .nav-pill--logo:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: none;
+  }
+  /* Hide the desktop brand stamp on mobile — the standalone one already
+   * lives in the left slot. */
+  .nav-brand-mark--desktop,
+  .nav-brand-link {
+    display: none;
+  }
+}
+
+/* On desktop we don't want the standalone mobile-style brand pill
+ * showing twice. The existing responsive system already hides
+ * `.nav-pill--logo` outside the mobile breakpoint — no change needed. */

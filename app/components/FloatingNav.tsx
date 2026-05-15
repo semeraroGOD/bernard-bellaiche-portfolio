@@ -2,9 +2,22 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import EmailCopyPill from "./EmailCopyPill";
+
+/**
+ * "L'Atelier de Bernard" — the brand stamp. The image is a cream-paper
+ * circular stamp with navy ink, so it blends with the navbar's cream
+ * pill palette while staying readable. We render it with a circular
+ * clip so it reads as a standalone badge whether placed on cream (inside
+ * a nav pill) or directly over the sky (mobile, standalone).
+ */
+const BRAND_LOGO = {
+  src: "/logo/atelier-de-bernard.png",
+  alt: "L'Atelier de Bernard",
+};
 
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 
@@ -93,15 +106,21 @@ export default function FloatingNav() {
         <span className="nav-status-label">Atelier ouvert</span>
       </motion.div>
 
-      {/* ────────── Mobile-only: compact logo pill (also a "back home" link) ────────── */}
+      {/* ────────── Mobile-only: brand-stamp logo (also a "back home" link) ────────── */}
       <Link
         href="/"
         onClick={handleClick({ kind: "top", label: "Accueil" })}
         className="nav-pill nav-pill--logo"
-        aria-label="Retour à l'accueil"
+        aria-label="L'Atelier de Bernard — retour à l'accueil"
       >
-        <span className="nav-logo-mark">C</span>
-        <span className="nav-logo-word">Ciel</span>
+        <Image
+          src={BRAND_LOGO.src}
+          alt={BRAND_LOGO.alt}
+          width={48}
+          height={48}
+          className="nav-brand-mark nav-brand-mark--mobile"
+          priority
+        />
       </Link>
 
       {/* ────────── Center: main nav capsule (desktop) ────────── */}
@@ -120,6 +139,24 @@ export default function FloatingNav() {
             {l.label}
           </Link>
         ))}
+        {/* Brand-stamp signature on the far right of the pill (desktop).
+         * Subtle — acts as the artist's mark, not as a primary action.
+         * Also a "back home" link, mirroring the mobile logo behaviour. */}
+        <Link
+          href="/"
+          onClick={handleClick({ kind: "top", label: "Accueil" })}
+          className="nav-brand-link"
+          aria-label="L'Atelier de Bernard — retour à l'accueil"
+        >
+          <Image
+            src={BRAND_LOGO.src}
+            alt={BRAND_LOGO.alt}
+            width={36}
+            height={36}
+            className="nav-brand-mark nav-brand-mark--desktop"
+            priority
+          />
+        </Link>
       </motion.div>
 
       {/* ────────── Mobile-only: menu toggle ────────── */}
