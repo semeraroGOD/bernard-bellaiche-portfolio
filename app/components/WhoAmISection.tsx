@@ -38,10 +38,10 @@ export default function WhoAmISection() {
             replaces the placeholder gradient automatically. */}
         <ArtistPhoto
           src="/photos/bernard/portrait.jpg"
-          alt="Bernard dans son atelier"
+          alt="Bernard, peintre"
           variant="clean"
           rotate={-1.4}
-          aspectRatio={4 / 5}
+          aspectRatio={431 / 619}
           placeholderBg={
             "radial-gradient(80% 60% at 35% 30%, rgba(255, 244, 220, 0.92) 0%, rgba(255, 244, 220, 0) 55%), " +
             "radial-gradient(60% 50% at 70% 75%, rgba(180, 140, 90, 0.45) 0%, rgba(180, 140, 90, 0) 60%), " +

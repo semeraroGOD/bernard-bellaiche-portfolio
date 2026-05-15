@@ -16,12 +16,15 @@ const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
  * landscape (4:3 ≈ 1.33) or portrait (3:4 ≈ 0.75) framing — change
  * the value once the real photo is in.
  */
+// Aspect ratios are the *actual* dimensions of each file (read via sips
+// after copy). Captions are intentionally short and evocative — no
+// stock-photo "team grid" feel.
 const ATELIER_PHOTOS: AtelierPhoto[] = [
   {
     src: "/photos/atelier/peinture-en-cours.jpg",
-    alt: "Bernard peignant à son chevalet",
+    alt: "Bernard dans son atelier, devant ses affiches",
     caption: "Atelier",
-    aspectRatio: 0.78,
+    aspectRatio: 663 / 947, // ≈ 0.700 — portrait, cropped from a tall original
     placeholderBg: [
       "radial-gradient(80% 60% at 30% 28%, rgba(255,236,196,0.85) 0%, rgba(255,236,196,0) 55%)",
       "linear-gradient(165deg, #e8d3a5 0%, #c79f6a 100%)",
@@ -31,7 +34,7 @@ const ATELIER_PHOTOS: AtelierPhoto[] = [
     src: "/photos/cote-azur/lumiere-mer.jpg",
     alt: "Lumière sur la mer, Côte d'Azur",
     caption: "Côte d'Azur",
-    aspectRatio: 0.80,
+    aspectRatio: 1600 / 1200, // ≈ 1.333 — landscape selfie au bord de mer
     placeholderBg: [
       "radial-gradient(90% 60% at 50% 30%, rgba(220,238,248,0.85) 0%, rgba(220,238,248,0) 55%)",
       "linear-gradient(175deg, #8fbedc 0%, #3c79a8 100%)",
@@ -39,9 +42,9 @@ const ATELIER_PHOTOS: AtelierPhoto[] = [
   },
   {
     src: "/photos/atelier/mains-pinceaux.jpg",
-    alt: "Gros plan sur les mains et les pinceaux de Bernard",
+    alt: "Bernard devant une de ses toiles",
     caption: "En peinture",
-    aspectRatio: 0.82,
+    aspectRatio: 1200 / 1600, // 0.750 — portrait
     placeholderBg: [
       "radial-gradient(70% 55% at 50% 30%, rgba(255,244,220,0.92) 0%, rgba(255,244,220,0) 55%)",
       "radial-gradient(60% 40% at 50% 80%, rgba(180,140,90,0.45) 0%, rgba(180,140,90,0) 60%)",
@@ -50,9 +53,9 @@ const ATELIER_PHOTOS: AtelierPhoto[] = [
   },
   {
     src: "/photos/atelier/texture-toile.jpg",
-    alt: "Détail de la texture d'une toile fraîchement peinte",
+    alt: "Un instant de partage autour d'une toile",
     caption: "Inspiration",
-    aspectRatio: 0.80,
+    aspectRatio: 1200 / 1600, // 0.750 — portrait
     placeholderBg: [
       "radial-gradient(80% 55% at 55% 30%, rgba(232,212,170,0.85) 0%, rgba(232,212,170,0) 55%)",
       "linear-gradient(170deg, #c9c089 0%, #7a8552 100%)",
@@ -60,9 +63,9 @@ const ATELIER_PHOTOS: AtelierPhoto[] = [
   },
   {
     src: "/photos/bernard/portrait-atelier.jpg",
-    alt: "Bernard dans son atelier",
+    alt: "Bernard, terrasse d'un soir",
     caption: "Bernard",
-    aspectRatio: 0.78,
+    aspectRatio: 585 / 439, // ≈ 1.333 — landscape, soirée terrasse
     placeholderBg: [
       "radial-gradient(80% 55% at 40% 30%, rgba(252,228,200,0.85) 0%, rgba(252,228,200,0) 55%)",
       "linear-gradient(165deg, #d8a587 0%, #9a5d3e 100%)",
