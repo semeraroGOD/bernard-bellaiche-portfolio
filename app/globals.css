@@ -9,6 +9,7 @@
 /* how-it-works-v1 */
 /* gallery-page-v1 */
 /* easel-gallery-v1 */
+/* easel-aspect-v2 */
 
 /* =====================================================================
  *  Typography system — French editorial luxury
@@ -1875,15 +1876,18 @@ html, body {
  * =====================================================================
  */
 
-/* The asymmetrical layout — auto-fit grid with per-card vertical
- * staggers (driven by `--easel-y-offset` on each easel). Generous gaps
- * give every easel breathing room. */
+/* The asymmetrical layout — flex with wrap so each easel can take a
+ * *different* width (driven by its painting's aspect ratio). Generous
+ * gaps give every canvas breathing room; `align-items: flex-end` keeps
+ * easels grounded on a common baseline so the legs read as standing
+ * on the same floor. */
 .gallery-grid-easel {
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-  gap: clamp(56px, 6vw, 96px) clamp(28px, 3vw, 56px);
-  align-items: end;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(56px, 6vw, 96px) clamp(32px, 3.5vw, 64px);
   padding-top: 24px;
 }
 
@@ -1895,17 +1899,30 @@ html, body {
   align-items: center;
   gap: clamp(16px, 1.6vh, 22px);
 
-  /* Asymmetric vertical drift — applied via margin-top so it can't be
-   * overridden by Framer Motion's transient inline transform on
-   * `<motion.figure>` during entry animation. */
-  margin-top: var(--easel-y-offset, 0);
+  /* Natural asymmetry now comes from the variable easel widths (each
+   * painting keeps its real aspect ratio) plus the per-variant canvas
+   * tilt + leg spread. No more vertical stagger — every easel stands
+   * on the same floor, which reads as more realistic and atelier-like. */
 }
 
-/* ---- The easel "stand" — holds the canvas + legs + tray ------------ */
+/* ---- The easel "stand" — holds the canvas + legs + tray ------------
+ *
+ * Canvas keeps a constant *height* (`--easel-canvas-h`). The stand's
+ * width is derived from `height × aspectRatio` — so landscape paintings
+ * get visibly wider easels, portrait ones narrower. We clamp to the
+ * viewport so very wide canvases never overflow on small screens.
+ *
+ * Result: every painting preserves its original proportions, and the
+ * gallery reads as a real wall of canvases hung at the same eye level.
+ */
 .easel-stand {
+  --easel-canvas-h: clamp(220px, 24vw, 320px);
+
   position: relative;
-  width: 100%;
-  max-width: 280px;
+  width: min(
+    calc(var(--easel-canvas-h) * var(--easel-aspect, 0.8)),
+    calc(100vw - 48px)
+  );
   /* Reserves room for the legs that extend below the canvas. */
   padding-bottom: var(--easel-leg-height, 86px);
 
@@ -1917,7 +1934,8 @@ html, body {
   position: relative;
   z-index: 3;
   width: 100%;
-  aspect-ratio: 4 / 5;
+  /* Native painting aspect ratio — no forced crop. */
+  aspect-ratio: var(--easel-aspect, 0.8);
   border-radius: 3px;
   background-color: #e8dcc8;
   background-size: cover;
@@ -1966,11 +1984,13 @@ html, body {
 
 /* Left + right legs splay outward, anchored near the top of the canvas.
  * Their top sits a bit below the canvas top so they read as supporting
- * the painting from behind. */
+ * the painting from behind. `height: 88%` covers from `top: 12%` down
+ * to the stand bottom — works for any canvas aspect because both refer
+ * to the same parent. */
 .easel-leg-left,
 .easel-leg-right {
   top: 12%;
-  height: calc(88% + var(--easel-leg-height, 86px) - 12%);
+  height: 88%;
   z-index: 1;
 }
 .easel-leg-left {
@@ -1989,7 +2009,7 @@ html, body {
   width: 4px;
   right: 38%;
   top: 38%;
-  height: calc(62% + var(--easel-leg-height, 86px) - 38%);
+  height: 62%;
   transform-origin: top center;
   transform: rotate(11deg);
   /* Slightly darker / less saturated than the front legs — it's "behind". */
@@ -2102,9 +2122,6 @@ html, body {
     grid-template-columns: 1fr;
     gap: 56px;
   }
-  /* Disable the desktop Y-stagger so mobile reads as one calm vertical
-   * river of paintings. */
-  .easel {
-    margin-top: 0 !important;
-  }
+  /* Already no Y stagger on desktop in this version — but we keep this
+   * block in case the data later re-introduces per-card offsets. */
 }

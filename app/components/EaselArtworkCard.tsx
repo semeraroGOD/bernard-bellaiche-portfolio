@@ -13,6 +13,18 @@ export interface EaselArtworkItem {
   title: string;
   /** Optional short subtitle (medium, year, dimensions, etc.) */
   subtitle?: string;
+  /**
+   * Natural aspect ratio of the painting (width / height).
+   *   • portrait  → < 1   (e.g. 0.78)
+   *   • square    → 1
+   *   • landscape → > 1   (e.g. 1.33)
+   *
+   * The easel adapts: canvas keeps a constant on-screen *height*, the
+   * stand's width is derived from `height × aspectRatio`. Landscape
+   * paintings get visibly wider easels, portrait paintings narrower
+   * ones — no cropping, no forced 4/5 box.
+   */
+  aspectRatio: number;
   /** Optional CSS background — used as a placeholder when the image
    *  hasn't been added yet or fails to load. */
   placeholderBg?: string;
@@ -34,11 +46,11 @@ interface EaselArtworkCardProps {
  * secondary to the painting.
  */
 const EASEL_VARIANTS = [
-  { canvasTilt: -0.6, legSpread: 4.0, yOffset: 0,  legHeight: 86 },
-  { canvasTilt:  0.5, legSpread: 4.6, yOffset: 24, legHeight: 92 },
-  { canvasTilt: -0.2, legSpread: 3.8, yOffset: 46, legHeight: 84 },
-  { canvasTilt:  0.8, legSpread: 5.0, yOffset: 12, legHeight: 90 },
-  { canvasTilt: -0.4, legSpread: 4.2, yOffset: 32, legHeight: 88 },
+  { canvasTilt: -0.6, legSpread: 4.0, legHeight: 86 },
+  { canvasTilt:  0.5, legSpread: 4.6, legHeight: 92 },
+  { canvasTilt: -0.2, legSpread: 3.8, legHeight: 84 },
+  { canvasTilt:  0.8, legSpread: 5.0, legHeight: 90 },
+  { canvasTilt: -0.4, legSpread: 4.2, legHeight: 88 },
 ];
 
 /**
@@ -65,10 +77,10 @@ export default function EaselArtworkCard({
       className="easel"
       style={
         {
-          "--easel-y-offset": `${v.yOffset}px`,
           "--easel-canvas-tilt": `${v.canvasTilt}deg`,
           "--easel-leg-spread": `${v.legSpread}deg`,
           "--easel-leg-height": `${v.legHeight}px`,
+          "--easel-aspect": item.aspectRatio,
         } as React.CSSProperties
       }
       initial={{ opacity: 0, y: 24 }}

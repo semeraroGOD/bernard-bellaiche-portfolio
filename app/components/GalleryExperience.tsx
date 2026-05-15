@@ -31,11 +31,15 @@ const PREMIUM_EASE = [0.16, 1, 0.3, 1] as const;
  * Add / rename entries here as new paintings arrive — no other code
  * needs to change.
  */
+// Aspect ratios are the *true* width/height of each painting file, read
+// from disk. The easel widens (landscape) or narrows (portrait) to
+// preserve the original canvas proportions — no forced 4:5 crop.
 const ARTWORKS: EaselArtworkItem[] = [
   {
     src: "/artworks/voiliers-en-mer.jpg",
     title: "Voiliers en mer",
     subtitle: "Huile sur toile",
+    aspectRatio: 2178 / 1778, // ≈ 1.225 — landscape
     placeholderBg:
       "linear-gradient(170deg, #4a8bc5 0%, #6daed8 45%, #c7e4f2 100%)",
   },
@@ -43,6 +47,7 @@ const ARTWORKS: EaselArtworkItem[] = [
     src: "/artworks/village-au-bord-de-mer.jpg",
     title: "Village au bord de mer",
     subtitle: "Huile sur toile",
+    aspectRatio: 3024 / 3024, // 1.000 — square
     placeholderBg:
       "linear-gradient(175deg, #cfe2ea 0%, #6fa6c3 50%, #356a8c 100%)",
   },
@@ -50,6 +55,7 @@ const ARTWORKS: EaselArtworkItem[] = [
     src: "/artworks/palmier-au-bord-de-mer.jpg",
     title: "Palmier au bord de mer",
     subtitle: "Huile sur toile",
+    aspectRatio: 3057 / 2527, // ≈ 1.210 — landscape
     placeholderBg:
       "linear-gradient(180deg, #7ec0c8 0%, #b2d4d2 38%, #e8d2a4 78%, #d6b890 100%)",
   },
@@ -57,6 +63,7 @@ const ARTWORKS: EaselArtworkItem[] = [
     src: "/artworks/pont-sur-la-riviere.jpg",
     title: "Pont sur la rivière",
     subtitle: "Huile sur toile",
+    aspectRatio: 3214 / 2539, // ≈ 1.266 — landscape
     placeholderBg:
       "linear-gradient(170deg, #a8c3d0 0%, #8aa980 38%, #62a09a 72%, #4a808c 100%)",
   },
@@ -64,6 +71,7 @@ const ARTWORKS: EaselArtworkItem[] = [
     src: "/artworks/au-bord-de-mer.jpg",
     title: "Au bord de mer",
     subtitle: "Huile sur toile",
+    aspectRatio: 2310 / 2970, // ≈ 0.778 — portrait
     placeholderBg:
       "linear-gradient(165deg, #d8cf9c 0%, #a8b07a 50%, #6e7e54 100%)",
   },
@@ -71,33 +79,39 @@ const ARTWORKS: EaselArtworkItem[] = [
     src: "/artworks/IMG_2393.JPG",
     title: "Portrait à la robe dorée",
     subtitle: "Huile sur toile",
+    aspectRatio: 1492 / 1985, // ≈ 0.752 — portrait
     placeholderBg: "linear-gradient(165deg, #efe2c2 0%, #c8a36a 100%)",
   },
   {
     src: "/artworks/IMG_2394.JPG",
     title: "Sous la pluie",
     subtitle: "Huile sur toile",
+    aspectRatio: 2487 / 3091, // ≈ 0.805 — portrait
     placeholderBg: "linear-gradient(170deg, #6d7f8f 0%, #4a5a6e 100%)",
   },
   {
     src: "/artworks/IMG_2396.JPG",
     title: "L'après-midi à la piscine",
     subtitle: "Huile sur toile",
+    aspectRatio: 4032 / 3024, // ≈ 1.333 — landscape
     placeholderBg: "linear-gradient(170deg, #cfe5ee 0%, #6fa6c3 100%)",
   },
   {
     src: "/artworks/IMG_2400.JPG",
     title: "Sans titre I",
+    aspectRatio: 2654 / 2642, // ≈ 1.005 — near square
     placeholderBg: "linear-gradient(165deg, #f0d8aa 0%, #c89368 100%)",
   },
   {
     src: "/artworks/IMG_2401.JPG",
     title: "Sans titre II",
+    aspectRatio: 2920 / 2237, // ≈ 1.305 — landscape
     placeholderBg: "linear-gradient(165deg, #d8a587 0%, #9a5d3e 100%)",
   },
   {
     src: "/artworks/IMG_2402.JPG",
     title: "Sans titre III",
+    aspectRatio: 3302 / 2636, // ≈ 1.253 — landscape
     placeholderBg: "linear-gradient(170deg, #c9c089 0%, #7a8552 100%)",
   },
 ];
