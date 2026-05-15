@@ -10,9 +10,9 @@ import {
 import dynamic from "next/dynamic";
 
 import FloatingNav from "./FloatingNav";
-import ArtworkGalleryCard, {
-  type ArtworkGalleryItem,
-} from "./ArtworkGalleryCard";
+import EaselArtworkCard, {
+  type EaselArtworkItem,
+} from "./EaselArtworkCard";
 
 const Scene3D = dynamic(() => import("./Scene3D"), { ssr: false });
 
@@ -31,7 +31,7 @@ const PREMIUM_EASE = [0.16, 1, 0.3, 1] as const;
  * Add / rename entries here as new paintings arrive — no other code
  * needs to change.
  */
-const ARTWORKS: ArtworkGalleryItem[] = [
+const ARTWORKS: EaselArtworkItem[] = [
   {
     src: "/artworks/voiliers-en-mer.jpg",
     title: "Voiliers en mer",
@@ -183,9 +183,9 @@ export default function GalleryExperience() {
             </motion.p>
           </div>
 
-          <div className="gallery-grid">
+          <div className="gallery-grid-easel">
             {ARTWORKS.map((a, i) => (
-              <ArtworkGalleryCard key={a.src} item={a} index={i} />
+              <EaselArtworkCard key={a.src} item={a} index={i} />
             ))}
           </div>
         </section>

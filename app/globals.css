@@ -8,6 +8,7 @@
 /* custom-request-v1 */
 /* how-it-works-v1 */
 /* gallery-page-v1 */
+/* easel-gallery-v1 */
 
 /* =====================================================================
  *  Typography system — French editorial luxury
@@ -1856,5 +1857,254 @@ html, body {
   .gallery-grid {
     grid-template-columns: 1fr;
     gap: 24px;
+  }
+}
+
+
+/* =====================================================================
+ *  Easel gallery — /mes-oeuvres "atelier" presentation.
+ *
+ *  Each painting rests on a minimal CSS-only easel:
+ *    • two slim wood-tone legs angled behind the canvas
+ *    • a thin horizontal tray below the canvas
+ *    • a small back-kick leg for visual balance
+ *    • a soft floor shadow grounding the whole composition
+ *
+ *  The easel stays deliberately secondary — soft wood tones, thin
+ *  elegant structure. The painting is the protagonist.
+ * =====================================================================
+ */
+
+/* The asymmetrical layout — auto-fit grid with per-card vertical
+ * staggers (driven by `--easel-y-offset` on each easel). Generous gaps
+ * give every easel breathing room. */
+.gallery-grid-easel {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: clamp(56px, 6vw, 96px) clamp(28px, 3vw, 56px);
+  align-items: end;
+  padding-top: 24px;
+}
+
+/* Single easel figure — contains the stand + caption underneath */
+.easel {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(16px, 1.6vh, 22px);
+
+  /* Asymmetric vertical drift — applied via margin-top so it can't be
+   * overridden by Framer Motion's transient inline transform on
+   * `<motion.figure>` during entry animation. */
+  margin-top: var(--easel-y-offset, 0);
+}
+
+/* ---- The easel "stand" — holds the canvas + legs + tray ------------ */
+.easel-stand {
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+  /* Reserves room for the legs that extend below the canvas. */
+  padding-bottom: var(--easel-leg-height, 86px);
+
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---- The canvas (the painting itself) ------------------------------ */
+.easel-canvas {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 3px;
+  background-color: #e8dcc8;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  isolation: isolate;
+
+  /* Subtle resting tilt — driven by the per-card variant. */
+  transform: rotate(var(--easel-canvas-tilt, 0deg));
+  transform-origin: 50% 100%;
+
+  /* Layered shadows simulate canvas thickness + a soft cast. */
+  box-shadow:
+    0 0 0 1px rgba(140, 100, 60, 0.35),
+    3px 3px 0 0 #cbb893,
+    4px 4px 0 1px rgba(140, 100, 60, 0.4),
+    8px 14px 22px -8px rgba(20, 14, 6, 0.42),
+    0 4px 12px -4px rgba(40, 30, 20, 0.25);
+
+  transition:
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.easel-canvas > img {
+  display: block;
+  pointer-events: none;
+}
+
+/* ---- The wood legs — slim, warm oak gradient ----------------------- */
+.easel-leg {
+  position: absolute;
+  bottom: 0;
+  width: 5px;
+  border-radius: 2px;
+  /* Warm light-oak gradient with a subtle grain feel via 3-stop linear. */
+  background: linear-gradient(
+    90deg,
+    #b6925e 0%,
+    #8a6a3e 45%,
+    #a3815a 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 240, 210, 0.25),
+    0 2px 6px -2px rgba(50, 30, 10, 0.35);
+}
+
+/* Left + right legs splay outward, anchored near the top of the canvas.
+ * Their top sits a bit below the canvas top so they read as supporting
+ * the painting from behind. */
+.easel-leg-left,
+.easel-leg-right {
+  top: 12%;
+  height: calc(88% + var(--easel-leg-height, 86px) - 12%);
+  z-index: 1;
+}
+.easel-leg-left {
+  left: 22%;
+  transform-origin: top center;
+  transform: rotate(calc(var(--easel-leg-spread, 4deg) * -1));
+}
+.easel-leg-right {
+  right: 22%;
+  transform-origin: top center;
+  transform: rotate(var(--easel-leg-spread, 4deg));
+}
+
+/* Back-kick leg — shorter, sits further back, gives balance silhouette */
+.easel-leg-back {
+  width: 4px;
+  right: 38%;
+  top: 38%;
+  height: calc(62% + var(--easel-leg-height, 86px) - 38%);
+  transform-origin: top center;
+  transform: rotate(11deg);
+  /* Slightly darker / less saturated than the front legs — it's "behind". */
+  background: linear-gradient(
+    90deg,
+    #9c7a4e 0%,
+    #6e5232 50%,
+    #87653e 100%
+  );
+  opacity: 0.85;
+  z-index: 0;
+}
+
+/* ---- The tray — thin horizontal lip just below the canvas ---------- */
+.easel-tray {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  /* Sit immediately under the canvas; canvas height = stand width × 5/4.
+   * `padding-bottom: legHeight` means canvas bottom is at
+   * `(100% - legHeight)` from stand top — i.e. the tray's `top`. */
+  top: calc(100% - var(--easel-leg-height, 86px));
+  height: 6px;
+  border-radius: 2px;
+  /* Match the leg wood, but slightly darker for the structural feel. */
+  background: linear-gradient(
+    180deg,
+    #a3815a 0%,
+    #6b4f30 50%,
+    #8a6a3e 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 240, 210, 0.3),
+    0 3px 6px -2px rgba(40, 25, 10, 0.35);
+  z-index: 2;
+}
+
+/* ---- Floor shadow — soft, grounds the easel ------------------------ */
+.easel-floor-shadow {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: -2px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(20, 14, 6, 0.32) 0%,
+    rgba(20, 14, 6, 0) 70%
+  );
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---- Hover — very subtle lift ------------------------------------- */
+.easel:hover .easel-stand {
+  transform: translateY(-4px);
+}
+.easel:hover .easel-canvas {
+  /* Slight tilt-correction toward 0 — feels like the painting catches
+   * the light when looked at, without any dramatic motion. */
+  transform: rotate(calc(var(--easel-canvas-tilt, 0deg) * 0.4));
+  box-shadow:
+    0 0 0 1px rgba(140, 100, 60, 0.4),
+    3px 3px 0 0 #cbb893,
+    4px 4px 0 1px rgba(140, 100, 60, 0.45),
+    12px 22px 32px -10px rgba(20, 14, 6, 0.5),
+    0 8px 18px -6px rgba(40, 30, 20, 0.32);
+}
+
+/* ---- Caption (title + optional subtitle) -------------------------- */
+.easel-caption {
+  padding: 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+  max-width: 280px;
+}
+.easel-title {
+  margin: 0;
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: clamp(0.98rem, 1.1vw, 1.08rem);
+  letter-spacing: -0.005em;
+  line-height: 1.25;
+  color: #111111;
+  /* Same warm-cream halo as the section headings — keeps the title
+   * legible over the sky. */
+  text-shadow:
+    0 1px 18px rgba(255, 248, 230, 0.5),
+    0 0 4px rgba(255, 248, 230, 0.3);
+}
+.easel-subtitle {
+  margin: 0;
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(0.78rem, 0.9vw, 0.88rem);
+  color: #2B2B2B;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+  text-shadow: 0 1px 14px rgba(255, 248, 230, 0.45);
+}
+
+/* ---- Mobile: collapse vertical staggers, single column ------------ */
+@media (max-width: 600px) {
+  .gallery-grid-easel {
+    grid-template-columns: 1fr;
+    gap: 56px;
+  }
+  /* Disable the desktop Y-stagger so mobile reads as one calm vertical
+   * river of paintings. */
+  .easel {
+    margin-top: 0 !important;
   }
 }
