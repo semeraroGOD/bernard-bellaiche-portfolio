@@ -10,6 +10,7 @@
 /* gallery-page-v1 */
 /* easel-gallery-v1 */
 /* easel-aspect-v2 */
+/* artist-photos-v1 */
 
 /* =====================================================================
  *  Typography system — French editorial luxury
@@ -2124,4 +2125,225 @@ html, body {
   }
   /* Already no Y stagger on desktop in this version — but we keep this
    * block in case the data later re-introduces per-card offsets. */
+}
+
+
+/* =====================================================================
+ *  Artist photography — reusable storytelling primitives
+ *
+ *  Three building blocks:
+ *    • .artist-photo         — single photo card (variants below)
+ *    • .atelier-gallery--*   — multiple photos arranged organically
+ *    • .memory-stack         — tiny pile of 2–3 polaroids (decorative)
+ *
+ *  All use the warm-edge / cream-paper vocabulary already established
+ *  by the homepage, so photos integrate into the storytelling rather
+ *  than reading as inserted blocks.
+ * =====================================================================
+ */
+
+/* ---- ArtistPhoto: shared chrome -------------------------------------- */
+.artist-photo {
+  position: relative;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  transform: rotate(var(--ap-rotate, 0deg));
+  transform-origin: 50% 80%;
+
+  transition:
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.artist-photo:hover {
+  /* Very subtle correction toward 0° — like the photo catches the light */
+  transform: rotate(calc(var(--ap-rotate, 0deg) * 0.4)) translateY(-4px);
+}
+
+/* The image slot itself — adapts to per-photo aspect ratio */
+.artist-photo-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--ap-aspect, 0.8);
+  border-radius: 2px;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+.artist-photo-image > img {
+  display: block;
+  pointer-events: none;
+}
+
+/* Handwritten-feel caption */
+.artist-photo-caption {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-bricolage), serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(0.78rem, 1vw, 0.95rem);
+  letter-spacing: 0.02em;
+  color: #2B2B2B;
+  line-height: 1;
+}
+
+/* ---- Variant: "polaroid" — cream paper border + caption strip -------- */
+.artist-photo--polaroid {
+  padding: 10px 10px 0;
+  background: linear-gradient(165deg, #fbf7ee 0%, #f4ecd8 100%);
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 1px rgba(140, 100, 60, 0.28),
+    0 10px 22px -10px rgba(8, 18, 44, 0.35),
+    0 4px 12px -4px rgba(8, 18, 44, 0.2);
+}
+.artist-photo--polaroid:hover {
+  box-shadow:
+    0 0 0 1px rgba(140, 100, 60, 0.32),
+    0 22px 36px -12px rgba(8, 18, 44, 0.45),
+    0 10px 22px -6px rgba(8, 18, 44, 0.25);
+}
+.artist-photo--polaroid .artist-photo-caption {
+  padding: 10px 4px 12px;
+}
+
+/* ---- Variant: "clean" — thin rounded frame, no caption strip -------- */
+.artist-photo--clean {
+  border-radius: 22px;
+  overflow: hidden;
+  background-color: #f4ecd8;
+  box-shadow:
+    0 0 0 1px rgba(140, 100, 60, 0.28),
+    0 22px 44px -16px rgba(8, 18, 44, 0.45),
+    0 8px 22px -8px rgba(8, 18, 44, 0.25);
+}
+.artist-photo--clean .artist-photo-image {
+  border-radius: 22px;
+}
+
+/* ---- Variant: "snapshot" — small white-bordered photo --------------- */
+.artist-photo--snapshot {
+  padding: 6px 6px 8px;
+  background: linear-gradient(165deg, #fdfaef 0%, #f6ecd4 100%);
+  border-radius: 3px;
+  box-shadow:
+    0 0 0 1px rgba(140, 100, 60, 0.24),
+    0 8px 16px -8px rgba(8, 18, 44, 0.3),
+    0 3px 8px -3px rgba(8, 18, 44, 0.18);
+}
+
+/* ---- AtelierGallery: "fan" layout ------------------------------------
+ * Uses the exact same composition as the existing `.polaroid-fan`, kept
+ * here under its own class name so the component is self-contained.
+ */
+.atelier-gallery--fan {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  height: clamp(280px, 36vw, 440px);
+  margin: 0 auto;
+}
+
+.atelier-fan-slot {
+  position: absolute;
+  bottom: 0;
+  margin: 0;
+  left: var(--pol-left-d);
+  width: var(--pol-width-d);
+  z-index: var(--pol-z-d, 1);
+  transform: translateY(calc(var(--pol-lift-d) * -1))
+             rotate(var(--pol-rotate-d))
+             scale(var(--pol-scale-d));
+  transform-origin: 50% 88%;
+  will-change: transform;
+
+  transition:
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    z-index 0s;
+}
+.atelier-fan-slot:hover {
+  z-index: 20;
+  transform: translateY(calc(var(--pol-lift-d) * -1 - 10px))
+             rotate(calc(var(--pol-rotate-d) * 0.35))
+             scale(var(--pol-scale-d));
+}
+
+@media (max-width: 720px) {
+  .atelier-gallery--fan {
+    height: clamp(260px, 70vw, 360px);
+    max-width: 100%;
+  }
+  .atelier-fan-slot {
+    left: var(--pol-left-m);
+    width: var(--pol-width-m);
+    z-index: var(--pol-z-m, 1);
+    transform: translateY(calc(var(--pol-lift-m) * -1))
+               rotate(var(--pol-rotate-m))
+               scale(var(--pol-scale-m));
+  }
+  .atelier-fan-slot:hover {
+    transform: translateY(calc(var(--pol-lift-m) * -1 - 6px))
+               rotate(calc(var(--pol-rotate-m) * 0.4))
+               scale(var(--pol-scale-m));
+  }
+}
+
+/* ---- AtelierGallery: "row" — horizontal strip ------------------------- */
+.atelier-gallery--row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(20px, 2.4vw, 36px);
+}
+.atelier-gallery--row .artist-photo {
+  width: clamp(160px, 18vw, 220px);
+}
+
+/* ---- AtelierGallery: "scatter" — loose grid -------------------------- */
+.atelier-gallery--scatter {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: clamp(28px, 3vw, 48px);
+  align-items: end;
+}
+
+/* ---- MemoryPhotoStack: small layered pile ---------------------------- */
+.memory-stack {
+  position: relative;
+  width: clamp(140px, 14vw, 180px);
+  height: clamp(170px, 17vw, 210px);
+  transform: scale(var(--stack-scale, 0.85));
+  transform-origin: 50% 50%;
+}
+.memory-stack-slot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: translate(var(--ms-offset-x, 0), var(--ms-offset-y, 0))
+             rotate(var(--ms-rotate, 0deg));
+  transform-origin: 50% 60%;
+}
+.memory-stack-slot .artist-photo {
+  /* Override hover lift inside a stack — too jittery in a pile */
+  transition: none;
+}
+.memory-stack-slot .artist-photo:hover {
+  transform: rotate(var(--ap-rotate, 0deg));
+}
+
+/* WhoAmI portrait — keep the original `.who-portrait` wrapper sizing
+ * so the section layout is unchanged; the ArtistPhoto inside fills it. */
+.who-portrait {
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: auto;
+  background: none;
+  box-shadow: none;
 }

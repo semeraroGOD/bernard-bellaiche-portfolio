@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import ArtistPhoto from "./ArtistPhoto";
 
 const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 
@@ -31,12 +32,22 @@ export default function WhoAmISection() {
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 1.2, ease: [...EASE_OUT_EXPO] }}
       >
-        {/* Portrait slot — replace this div's background with an <Image /> when
-            the real photo lands. The frame, shadow, and rounded corners stay. */}
-        <div
+        {/* Portrait — uses the reusable `ArtistPhoto` so the same warm
+            frame vocabulary is shared across the site. When a real
+            photo is dropped at `/photos/bernard/portrait.jpg`, it
+            replaces the placeholder gradient automatically. */}
+        <ArtistPhoto
+          src="/photos/bernard/portrait.jpg"
+          alt="Bernard dans son atelier"
+          variant="clean"
+          rotate={-1.4}
+          aspectRatio={4 / 5}
+          placeholderBg={
+            "radial-gradient(80% 60% at 35% 30%, rgba(255, 244, 220, 0.92) 0%, rgba(255, 244, 220, 0) 55%), " +
+            "radial-gradient(60% 50% at 70% 75%, rgba(180, 140, 90, 0.45) 0%, rgba(180, 140, 90, 0) 60%), " +
+            "linear-gradient(170deg, #f0d8aa 0%, #c89368 100%)"
+          }
           className="who-portrait"
-          role="img"
-          aria-label="Portrait de Bernard (à venir)"
         />
       </motion.div>
 
