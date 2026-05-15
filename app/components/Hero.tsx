@@ -131,25 +131,28 @@ export default function Hero({ mouseX, mouseY, scroll }: HeroProps) {
             href="/mes-oeuvres"
             whileHover={{
               scale: 1.035,
-              backgroundColor: "rgba(255, 252, 244, 0.92)",
-              borderColor: "rgba(255, 255, 255, 0.7)",
-              boxShadow: "0 14px 44px rgba(8, 18, 44, 0.28)",
+              backgroundColor: "#163828",
+              borderColor: "rgba(8, 28, 20, 0.7)",
+              boxShadow:
+                "0 22px 50px -16px rgba(12, 36, 26, 0.7), 0 10px 22px -8px rgba(8, 18, 44, 0.32)",
             }}
             whileTap={{ scale: 0.985 }}
             transition={{ duration: 0.45, ease: [...EASE_OUT_EXPO] }}
             style={{
-              border: "1px solid rgba(255, 255, 255, 0.6)",
-              background: "rgba(255, 252, 244, 0.82)",
-              color: "#111111",
+              border: "1px solid rgba(12, 36, 26, 0.55)",
+              background: "linear-gradient(160deg, #244F3D 0%, #1B4234 100%)",
+              backgroundColor: "#1F4D3A",
+              color: "#FBF7EE",
               fontFamily: "var(--font-bricolage), system-ui, sans-serif",
-              fontWeight: 500,
-              fontSize: "0.95rem",
-              letterSpacing: "-0.005em",
-              padding: "15px 30px",
+              fontWeight: 700,
+              fontSize: "1rem",
+              letterSpacing: "0.005em",
+              padding: "16px 34px",
               borderRadius: "999px",
               cursor: "pointer",
               textDecoration: "none",
-              boxShadow: "0 8px 32px rgba(8, 18, 44, 0.18)",
+              boxShadow:
+                "0 1px 0 rgba(255,255,255,0.08) inset, 0 -3px 8px -5px rgba(0,0,0,0.25) inset, 0 14px 36px -14px rgba(12, 36, 26, 0.6), 0 6px 16px -6px rgba(8, 18, 44, 0.24)",
             }}
           >
             Voir les œuvres
